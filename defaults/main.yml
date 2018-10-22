@@ -16,6 +16,7 @@ consul_server: false
 consul_join: []
 consul_uri: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
 consul_config_src: config.json.j2
+consul_domain: consul
 consul_dnsmasq_consul_address: 127.0.0.1
 consul_port_dns: 8600
 consul_extra_args: []
