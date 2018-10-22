@@ -1,0 +1,19 @@
+---
+
+- name: Set DNS in systemd-resolvd
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#DNS='
+    line: 'DNS=127.0.0.1'
+
+- name: Set Domains in systemd-resolvd
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    insertafter: '^DNS='
+    line: 'Domains=~consul'
+    state: present
+
+- name: Reload systemd-resolvd service config
+  systemd:
+    name: systemd-resolved
+    daemon_reload: true

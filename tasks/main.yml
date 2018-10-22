@@ -1,0 +1,85 @@
+---
+
+  - name: Ensure Consul service group exists
+    group:
+      name: "{{ consul_group }}"
+      system: true
+      state: present
+
+  - name: Ensure Consul service user exists
+    user:
+      name: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+      home: "{{ consul_data_dir }}"
+      system: true
+      state: present
+
+  - name: Ensure unzip is installed
+    package:
+      name: unzip
+      state: present
+
+  - name: Ensure Consul directory structure is configured
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+    with_items:
+      - "{{ consul_config_dir }}"
+      - "{{ consul_data_dir }}"
+      - "{{ consul_bin_dir }}/bin"
+
+  - stat: path="{{ consul_bin_dir }}/bin/consul"
+    register: consul_bin
+
+  - name: Fetch Consul
+    unarchive:
+      src: "{{ consul_uri }}"
+      dest: "{{ consul_bin_dir }}/bin"
+      remote_src: true
+    become: true
+    become_user: "{{ consul_user }}"
+    when: not consul_bin.stat.exists
+
+  - include: tls.yml
+
+  - name: Deploy Consul service configuration
+    template:
+      src: "{{ consul_config_src }}"
+      dest: "{{ consul_config_dir}}/config.json"
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+    notify:
+      - Reload Consul service
+
+  - name: Deploy Consul service manifest
+    template:
+      src: "{{ consul_service_file.src }}"
+      dest: "{{ consul_service_file.dest }}"
+      owner: root
+      group: root
+      mode: 0600
+    register: consul_svc_manifest
+    notify:
+      - Restart Consul service
+
+  - name: Reload Consul service config
+    systemd:
+      name: consul
+      daemon_reload: true
+    when: consul_svc_manifest.changed
+
+  - name: Ensure the Consul service is running
+    service:
+      name: consul
+      state: started
+    when: not consul_packer_provision
+
+  - name: Ensure the Consul service is enabled on boot
+    service:
+      name: consul
+      enabled: yes
+
+  - include: dnsmasq.yml
+  - include: systemd-resolvd.yml

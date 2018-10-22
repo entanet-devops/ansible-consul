@@ -1,0 +1,47 @@
+---
+consul_packer_provision: true
+consul_user: consul
+consul_group: consul
+consul_bin_dir: /usr
+consul_config_dir: /etc/consul
+consul_data_dir: /var/consul
+consul_tls_src_files: /tmp/ssl
+consul_tls_dir: "{{ consul_config_dir }}/ssl"
+consul_tls_ca_crt: consul-ca.pem
+consul_tls_crt: crt.pem
+consul_tls_key: key.pem
+consul_version: 1.3.0
+consul_ui: false
+consul_server: false
+consul_join: []
+consul_uri: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+consul_config_src: config.json.j2
+consul_dnsmasq_consul_address: 127.0.0.1
+consul_port_dns: 8600
+consul_extra_args: []
+consul_service_file:
+  src: consul.service.j2
+  dest: /etc/systemd/system/consul.service
+
+consul_config:
+  encrypt: CHANGEME
+  ca_file: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
+  cert_file: "{{ consul_tls_dir }}/{{ consul_tls_crt }}"
+  key_file: "{{ consul_tls_dir }}/{{ consul_tls_key }}"
+  verify_incoming: true
+  verify_outgoing: true
+  client_addr: 0.0.0.0
+  retry_join: "{{ consul_join }}"
+  datacenter: "{{ datacenter }}"
+  data_dir: "{{ consul_data_dir }}"
+  log_level: INFO
+  server: "{{ consul_server }}"
+  ui: "{{ consul_ui }}"
+  telemetry:
+    disable_hostname: true
+    dogstatsd_addr: "localhost:8125"
+  leave_on_terminate: true
+  skip_leave_on_interrupt: false
+  rejoin_after_leave: true
+
+datacenter: dc-1
