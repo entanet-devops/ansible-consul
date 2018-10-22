@@ -18,16 +18,16 @@
 
 - name: Copy server certificate
   copy:
-    src: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt }}"
-    dest: "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}"
+    src: "{{ consul_tls_src_files }}/{{ consul_tls_crt }}"
+    dest: "{{ consul_tls_dir }}/{{ consul_tls_crt }}"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0644
 
 - name: Copy server key
   copy:
-    src: "{{ consul_tls_src_files }}/{{ consul_server_key }}"
-    dest: "{{ consul_tls_dir }}/{{ consul_server_key }}"
+    src: "{{ consul_tls_src_files }}/{{ consul_tls_key }}"
+    dest: "{{ consul_tls_dir }}/{{ consul_tls_key }}"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0600
