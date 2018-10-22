@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Jake Smith
+  description: Installs consul server/agents for Packer builds
+  company: Entanet
+
+  license: BSD
+
+  min_ansible_version: 2.5
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+
+
+  galaxy_tags:
+    - consul
+    - packer
+    - entanet
+
+dependencies: []
