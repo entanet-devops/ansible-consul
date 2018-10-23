@@ -11,6 +11,7 @@ consul_tls_ca_crt: consul-ca.pem
 consul_tls_crt: crt.pem
 consul_tls_key: key.pem
 consul_version: 1.3.0
+consul_datacenter: dc-1
 consul_ui: false
 consul_server: false
 consul_join: []
@@ -34,7 +35,7 @@ consul_config:
   verify_outgoing: true
   client_addr: 0.0.0.0
   retry_join: "{{ consul_join }}"
-  datacenter: "{{ datacenter }}"
+  datacenter: "{{ consul_datacenter }}"
   data_dir: "{{ consul_data_dir }}"
   log_level: INFO
   server: "{{ consul_server }}"
@@ -45,5 +46,4 @@ consul_config:
   leave_on_terminate: true
   skip_leave_on_interrupt: false
   rejoin_after_leave: true
-
-datacenter: dc-1
+consul_config_extra: {}
