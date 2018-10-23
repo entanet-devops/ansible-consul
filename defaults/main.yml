@@ -14,6 +14,7 @@ consul_version: 1.3.0
 consul_ui: false
 consul_server: false
 consul_join: []
+consul_encrypt: CHANGEME
 consul_uri: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
 consul_config_src: config.json.j2
 consul_domain: consul
@@ -25,7 +26,7 @@ consul_service_file:
   dest: /etc/systemd/system/consul.service
 
 consul_config:
-  encrypt: CHANGEME
+  encrypt: "{{ consul_encrypt }}"
   ca_file: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
   cert_file: "{{ consul_tls_dir }}/{{ consul_tls_crt }}"
   key_file: "{{ consul_tls_dir }}/{{ consul_tls_key }}"
