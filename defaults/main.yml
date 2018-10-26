@@ -7,9 +7,9 @@ consul_config_dir: /etc/consul
 consul_data_dir: /var/consul
 consul_tls_src_files: /tmp/ssl
 consul_tls_dir: "{{ consul_config_dir }}/ssl"
-consul_tls_ca_crt: consul-ca.pem
-consul_tls_crt: crt.pem
-consul_tls_key: key.pem
+consul_tls_ca_crt: ca_cert.pem
+consul_tls_crt: cert.pem
+consul_tls_key: cert-key.pem
 consul_version: 1.3.0
 consul_datacenter: dc-1
 consul_ui: false

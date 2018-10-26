@@ -1,0 +1,11 @@
+---
+- hosts: 127.0.0.1
+  vars:
+    consul_config:
+      test: 123
+    consul_config_extra: {}
+  tasks:
+  - name: Test jinja2template
+    template: src=templates/config.json.j2 dest=test.conf
+  
+
