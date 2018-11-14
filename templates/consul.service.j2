@@ -10,7 +10,9 @@ Group={{ consul_group }}
 PIDFile=/run/consul/consul.pid
 Restart=on-failure
 Environment=GOMAXPROCS=2
+{% if consul_server == True -%}
 EnvironmentFile=/etc/sysconfig/consul
+{% endif -%}
 ExecStartPre=/usr/bin/install -d /run/consul -o {{ consul_user }} -g {{ consul_group }}
 ExecStartPre=/usr/bin/touch /run/consul/consul.pid
 ExecStartPre=/bin/chown {{ consul_user }}:{{ consul_group }} /run/consul/consul.pid
