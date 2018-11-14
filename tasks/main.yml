@@ -72,7 +72,7 @@
 
   - name: Copy services.json to instance
     template:
-      src: services.conf.j2
+      src: services.json.j2
       dest: /etc/consul/services.json
     when: consul_copy_services_json
 
