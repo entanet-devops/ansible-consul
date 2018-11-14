@@ -47,3 +47,4 @@ consul_config:
   skip_leave_on_interrupt: false
   rejoin_after_leave: true
 consul_config_extra: {}
+consul_copy_services_json: false

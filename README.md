@@ -23,6 +23,8 @@ consul_join:
   - consul-2.example.net
   - consul-3.example.net
 
+consul_copy_services_json: false
+
 
 Example Playbook
 ----------------

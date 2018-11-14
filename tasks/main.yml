@@ -70,6 +70,12 @@
       daemon_reload: true
     when: consul_svc_manifest.changed
 
+  - name: Copy services.json to instance
+    template:
+      src: services.conf.j2
+      dest: /etc/consul/services.json
+    when: consul_copy_services_json
+
   - name: Ensure the Consul service is running
     service:
       name: consul
