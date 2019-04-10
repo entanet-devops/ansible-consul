@@ -16,7 +16,7 @@ EnvironmentFile=/etc/sysconfig/consul
 ExecStartPre=/usr/bin/install -d /run/consul -o {{ consul_user }} -g {{ consul_group }}
 ExecStartPre=/usr/bin/touch /run/consul/consul.pid
 ExecStartPre=/bin/chown {{ consul_user }}:{{ consul_group }} /run/consul/consul.pid
-ExecStart={{ consul_bin_dir }}/bin/consul agent $CONSUL_FLAGS {% if consul_extra_args > 0 %}{% for arg in consul_extra_args %}{{arg}} {% endfor %}{% endif %}-pid-file=/run/consul/consul.pid -config-dir={{ consul_config_dir }}
+ExecStart={{ consul_bin_dir }}/bin/consul agent $CONSUL_FLAGS {% if consul_extra_args|length > 0 %}{% for arg in consul_extra_args %}{{arg}} {% endfor %}{% endif %}-pid-file=/run/consul/consul.pid -config-dir={{ consul_config_dir }}
 ExecStopPost=/bin/rm -f /run/consul/consul.pid
 ExecReload=/bin/kill -s HUP $MAINPID
 KillSignal=SIGINT
